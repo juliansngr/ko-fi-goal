@@ -7,7 +7,7 @@ export async function POST(req) {
 
   console.log(req.body);
   const { data } = req.body;
-  if (data.verification_token !== process.env.KOFI_WEBHOOK_SECRET) {
+  if (data.verification_token !== process.env.KOFI_VERIFICATION_TOKEN) {
     return new Response("Unauthorized", { status: 401 });
   }
 
