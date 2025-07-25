@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/browserClient";
+import Image from "next/image";
 
 export default function GoalOverlay() {
   const [goal, setGoal] = useState(0);
   const [goalText, setGoalText] = useState("");
   const [showSecondHalf, setShowSecondHalf] = useState(false);
   const [secondHalfAmount, setSecondHalfAmount] = useState(0);
+  const [displayImage, setDisplayImage] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -24,7 +26,8 @@ export default function GoalOverlay() {
         setGoal((data.amount_in_cents / 100).toFixed(2));
         setGoalText(data.goal_text);
         setShowSecondHalf(data.show_second_half);
-        setSecondHalfAmount(data.second_amount / 100);
+        setSecondHalfAmount((data.second_amount / 100).toFixed(2));
+        setDisplayImage(data.display_img || false);
       }
     }
 
@@ -48,7 +51,8 @@ export default function GoalOverlay() {
           setGoal((payload.new.amount_in_cents / 100).toFixed(2));
           setGoalText(payload.new.goal_text);
           setShowSecondHalf(payload.new.show_second_half);
-          setSecondHalfAmount(payload.new.second_amount / 100);
+          setSecondHalfAmount((payload.new.second_amount / 100).toFixed(2));
+          setDisplayImage(payload.new.display_img || false);
         }
       )
       .subscribe();
@@ -60,10 +64,19 @@ export default function GoalOverlay() {
   }, []);
 
   return (
-    <div className="flex flex-col items-left py-6">
+    <div className="flex flex-row items-center py-6">
+      {displayImage && (
+        <Image
+          src="/kofi_icon.webp"
+          alt="Goal"
+          width={50}
+          height={50}
+          className="mr-3"
+        />
+      )}
       <p className="text-4xl text-white text-left font-nunito text-stroke-sm">
         {goal
-          ? `${goalText} €${goal} ${showSecondHalf ? "/" : ""} €${
+          ? `${goalText} €${goal} ${showSecondHalf ? "/ €" : ""} ${
               showSecondHalf ? secondHalfAmount : ""
             }`
           : "Lade…"}

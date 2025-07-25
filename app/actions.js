@@ -8,6 +8,7 @@ export async function updateGoal(formData) {
 
   const goalText = formData.get("goalText");
   const showSecondHalf = formData.get("showSecondHalf");
+  const displayImage = formData.get("displayImage");
 
   const secondHalfAmount = formData.get("secondHalfAmount");
   const secondHalfAmountInCents = Math.round(secondHalfAmount * 100);
@@ -19,16 +20,8 @@ export async function updateGoal(formData) {
       amount_in_cents: amountInCents,
       goal_text: goalText,
       show_second_half: showSecondHalf,
+      display_img: displayImage,
       second_amount: secondHalfAmountInCents,
     })
-    .eq("id", 1);
-}
-
-export async function setSecondHalf(formData) {
-  const supabase = await createClient();
-  const showSecondHalf = formData.get("showSecondHalf");
-  await supabase
-    .from("goals")
-    .update({ show_second_half: showSecondHalf })
     .eq("id", 1);
 }
