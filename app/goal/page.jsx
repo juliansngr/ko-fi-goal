@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/browserClient";
 import Image from "next/image";
 
-export default function GoalOverlay() {
+function GoalOverlayContent() {
   const [goal, setGoal] = useState(0);
   const [goalText, setGoalText] = useState("");
   const [showSecondHalf, setShowSecondHalf] = useState(false);
@@ -96,5 +96,21 @@ export default function GoalOverlay() {
         />
       )}
     </div>
+  );
+}
+
+export default function GoalOverlay() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-row items-center py-6">
+          <p className="text-4xl text-white text-left font-nunito text-stroke-sm">
+            Lade…
+          </p>
+        </div>
+      }
+    >
+      <GoalOverlayContent />
+    </Suspense>
   );
 }
