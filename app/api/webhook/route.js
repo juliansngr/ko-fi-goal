@@ -2,9 +2,8 @@ import { createClient } from "@/lib/supabase/serverClient";
 
 export async function POST(req) {
   const supabase = await createClient();
-  const body = await req.json();
+  const body = await req.text();
   console.log("req.body", body);
-  // 1. Validierung des Signatures-Headers gegen KOFI_WEBHOOK_SECRET
 
   if (body.verification_token !== process.env.KOFI_VERIFICATION_TOKEN) {
     return new Response("Unauthorized", { status: 401 });
