@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/browserClient";
 import Image from "next/image";
 
@@ -11,6 +12,9 @@ export default function GoalOverlay() {
   const [secondHalfAmount, setSecondHalfAmount] = useState(0);
   const [displayImage, setDisplayImage] = useState(false);
   const supabase = createClient();
+
+  const searchParams = useSearchParams();
+  const logoSide = searchParams.get("logoSide") || "left";
 
   useEffect(() => {
     async function fetchGoal() {
@@ -65,7 +69,7 @@ export default function GoalOverlay() {
 
   return (
     <div className="flex flex-row items-center py-6">
-      {displayImage && (
+      {displayImage && logoSide === "left" && (
         <Image
           src="/kofi_icon.webp"
           alt="Goal"
@@ -74,6 +78,7 @@ export default function GoalOverlay() {
           className="mr-3"
         />
       )}
+
       <p className="text-4xl text-white text-left font-nunito text-stroke-sm">
         {goal
           ? `${goalText} €${goal} ${showSecondHalf ? "/ €" : ""} ${
@@ -81,6 +86,15 @@ export default function GoalOverlay() {
             }`
           : "Lade…"}
       </p>
+      {displayImage && logoSide === "right" && (
+        <Image
+          src="/kofi_icon.webp"
+          alt="Goal"
+          width={50}
+          height={50}
+          className="ml-3"
+        />
+      )}
     </div>
   );
 }
