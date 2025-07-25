@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/serverClient";
 
 export async function POST(req) {
   const supabase = await createClient();
-
+  console.log("req", req);
   // 1. Validierung des Signatures-Headers gegen KOFI_WEBHOOK_SECRET
 
   const { data } = await req.json();
