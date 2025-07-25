@@ -2,15 +2,27 @@ import { createClient } from "@/lib/supabase/serverClient";
 
 export async function POST(req) {
   const supabase = await createClient();
-  const body = await req.text();
-  console.log("req.body", body);
 
-  if (body.verification_token !== process.env.KOFI_VERIFICATION_TOKEN) {
-    return new Response("Unauthorized", { status: 401 });
+  const raw = await req.text();
+  console.log("🪵 Raw body:", raw);
+
+  const params = new URLSearchParams(raw);
+  const dataField = params.get("data");
+  if (!dataField) {
+    console.error("Missing data field in form payload");
+    return new Response("Bad Request", { status: 400 });
   }
 
-  // 2. Amount extrahieren
-  const amount = data.amount;
+  let payload;
+  try {
+    payload = JSON.parse(dataField);
+  } catch (err) {
+    console.error("Invalid JSON in data field:", dataField, err);
+    return new Response("Bad Request: invalid JSON", { status: 400 });
+  }
+  console.log("🪵 Parsed Ko‑fi payload:", payload);
+
+  const amount = payload.amount;
 
   const amountInCents = Math.round(amount * 100);
 
