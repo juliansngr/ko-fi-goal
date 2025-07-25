@@ -1,5 +1,14 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import localFont from "next/font/local";
+
+const nunito = localFont({
+  src: "../public/Nunito-Bold.ttf",
+  weight: "700",
+  style: "normal",
+  variable: "--font-nunito",
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,12 +27,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html lang="en" className={`${nunito.variable} antialiased`}>
+      <body className="font-nunito">{children}</body>
     </html>
   );
 }
