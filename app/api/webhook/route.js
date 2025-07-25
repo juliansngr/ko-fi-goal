@@ -5,8 +5,8 @@ export async function POST(req) {
 
   // 1. Validierung des Signatures-Headers gegen KOFI_WEBHOOK_SECRET
 
-  console.log(req.body);
-  const { data } = req.body;
+  const { data } = await req.json();
+  console.log(data);
   if (data.verification_token !== process.env.KOFI_VERIFICATION_TOKEN) {
     return new Response("Unauthorized", { status: 401 });
   }
