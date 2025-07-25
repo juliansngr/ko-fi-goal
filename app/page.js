@@ -115,31 +115,63 @@ export default function Home() {
             />
           </div>
 
-          <div className="space-y-2">
-            <label
-              htmlFor="showSecondHalf"
-              className="text-white text-sm font-medium"
-            >
-              Zeige zweite Hälfte?
-            </label>
-            <input
-              id="showSecondHalf"
-              type="checkbox"
-              name="showSecondHalf"
-              className="w-full px-4 py-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200"
-              checked={showSecondHalf}
-              onChange={(e) => {
-                setShowSecondHalf(e.target.checked);
-              }}
-            />
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/15 transition-all duration-300">
+              <div className="flex flex-col">
+                <label
+                  htmlFor="showSecondHalf"
+                  className="text-white text-base font-medium cursor-pointer"
+                >
+                  Zweite Hälfte anzeigen
+                </label>
+                <span className="text-white/70 text-sm">
+                  Aktiviere einen zusätzlichen Zielbetrag
+                </span>
+              </div>
+
+              {/* Custom Toggle Switch */}
+              <div className="relative">
+                <input
+                  id="showSecondHalf"
+                  type="checkbox"
+                  name="showSecondHalf"
+                  className="sr-only"
+                  checked={showSecondHalf}
+                  onChange={(e) => {
+                    setShowSecondHalf(e.target.checked);
+                  }}
+                />
+                <label
+                  htmlFor="showSecondHalf"
+                  className={`flex items-center cursor-pointer transition-all duration-300 ${
+                    showSecondHalf
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-600"
+                      : "bg-white/20"
+                  } w-14 h-8 rounded-full p-1 shadow-lg backdrop-blur-md border border-white/30`}
+                >
+                  <div
+                    className={`w-6 h-6 bg-white rounded-full shadow-lg transform transition-all duration-300 ${
+                      showSecondHalf
+                        ? "translate-x-6 shadow-cyan-400/50"
+                        : "translate-x-0"
+                    }`}
+                  />
+                </label>
+              </div>
+            </div>
           </div>
-          {showSecondHalf && (
-            <div className="space-y-2">
+          <div
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${
+              showSecondHalf ? "max-h-32 opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="space-y-2 pt-2">
               <label
                 htmlFor="secondHalfAmount"
-                className="text-white text-sm font-medium"
+                className="text-white text-sm font-medium flex items-center gap-2"
               >
-                Zweite Hälfte (€)
+                <span className="text-cyan-400">🎯</span>
+                Zusätzliches Ziel (€)
               </label>
               <input
                 id="secondHalfAmount"
@@ -148,11 +180,11 @@ export default function Home() {
                 step="0.01"
                 defaultValue={secondHalfAmount}
                 min="0"
-                placeholder="Betrag eingeben..."
-                className="w-full px-4 py-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200"
+                placeholder="Zusätzlicher Betrag..."
+                className="w-full px-4 py-3 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 backdrop-blur-md border border-cyan-400/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 focus:bg-cyan-500/20 transition-all duration-200 shadow-lg"
               />
             </div>
-          )}
+          </div>
 
           <button
             type="submit"

@@ -4,7 +4,6 @@ export async function POST(req) {
   const supabase = await createClient();
 
   const raw = await req.text();
-  console.log("🪵 Raw body:", raw);
 
   const params = new URLSearchParams(raw);
   const dataField = params.get("data");
@@ -20,7 +19,6 @@ export async function POST(req) {
     console.error("Invalid JSON in data field:", dataField, err);
     return new Response("Bad Request: invalid JSON", { status: 400 });
   }
-  console.log("🪵 Parsed Ko‑fi payload:", payload);
 
   const amount = payload.amount;
 

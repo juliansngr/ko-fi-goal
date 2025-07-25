@@ -3,7 +3,6 @@
 import { createClient } from "@/lib/supabase/serverClient";
 
 export async function updateGoal(formData) {
-  console.log(formData);
   const amount = parseFloat(formData.get("amount"));
   const amountInCents = Math.round(amount * 100);
 
