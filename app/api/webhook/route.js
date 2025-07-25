@@ -26,11 +26,23 @@ export async function POST(req) {
 
   const amountInCents = Math.round(amount * 100);
 
-  // 3. Counter inkrementieren (in Cent oder Ganzzahl)
+  const { data, error } = await supabase
+    .from("goals")
+    .select("*")
+    .eq("id", 1)
+    .single();
+
+  if (error) {
+    console.error("Error fetching goal:", error);
+    return new Response("Internal Server Error", { status: 500 });
+  }
+
+  const newTotal = data.amount_in_cents + amountInCents;
+
   await supabase
     .from("goals")
-    .eq("id", 1)
-    .upsert({ amount_in_cents: amountInCents });
+    .update({ amount_in_cents: newTotal })
+    .eq("id", 1);
 
   return new Response("OK", { status: 200 });
 }
